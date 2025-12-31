@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Required_Rating_While_Completed</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    ISPICKVAL(Inspection_Status__c, &quot;Completed&quot;),
+    ISBLANK(Overall_Rating__c)
+)</errorConditionFormula>
+    <errorDisplayField>Overall_Rating__c</errorDisplayField>
+    <errorMessage>Overall Rating is Required when status is completed</errorMessage>
+</ValidationRule>

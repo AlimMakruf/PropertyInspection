@@ -1,0 +1,112 @@
+<template>
+    <div class="slds-card">
+        <header class="slds-card__header slds-grid">
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                <h2 class="slds-card__header-title slds-grid slds-grid_align-spread slds-has-flexi-truncate">
+                    <span class="slds-truncate">
+                        Property Inspection
+                    </span>
+                    <span class="slds-truncate">
+                        Average Rating: {avgRating}
+                    </span>
+                </h2>
+            </div>
+        </header>
+
+        <!-- Button to open flow in modal -->
+        <div class="slds-card__body slds-p-around_small">
+            <lightning-button
+                label="Schedule Inspection"
+                onclick={openFlowModal}
+                variant="brand">
+            </lightning-button>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="slds-card__body slds-p-around_small">
+            <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-combobox
+                        name="status"
+                        label="Filter by Status"
+                        placeholder="Select Status"
+                        options={statusOptions}
+                        value={selectedStatus}
+                        onchange={handleStatusChange}>
+                    </lightning-combobox>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-combobox
+                        name="type"
+                        label="Filter by Type"
+                        placeholder="Select Type"
+                        options={typeOptions}
+                        value={selectedType}
+                        onchange={handleTypeChange}>
+                    </lightning-combobox>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="slds-card__body slds-p-around_medium">
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th scope="col">Inspection Date</th>
+                        <th scope="col">Inspection Type</th>
+                        <th scope="col">Inspection Status</th>
+                        <th scope="col">Rating</th>
+                        <th scope="col">Inspector Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template if:true={hasFilteredRecords}>
+                        <template for:each={filteredRecords} for:item="record">
+                            <tr key={record.id} class="slds-hint-parent">
+                                <td>{record.inspectionDate}</td>
+                                <td>{record.inspectionType}</td>
+                                <td>
+                                    <lightning-badge
+                                        label={record.status}
+                                        class={record.variant}>
+                                    </lightning-badge>
+                                </td>
+                                <td>{record.rating}</td>
+                                <td>{record.inspectorName}</td>
+                            </tr>
+                        </template>
+                    </template>
+                    <template if:false={hasFilteredRecords}>
+                        <tr>
+                            <td colspan="5" class="slds-text-align_center slds-text-color_weak slds-p-vertical_medium">
+                                No inspection records found
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium">Schedule Property Inspection</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning-flow
+                        flow-api-name="Schedule_Property_Inspection"
+                        onstatuschange={handleFlowStatusChange}>
+                    </lightning-flow>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancel" onclick={closeModal}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>
