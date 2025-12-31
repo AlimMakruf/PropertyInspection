@@ -42,6 +42,8 @@
 ### LWC UI
 <img width="1724" height="1042" alt="image" src="https://github.com/user-attachments/assets/9c563a63-2786-42e9-a687-0e52a0f85093" />
 
+### Account Lightning Record Page
+<img width="2560" height="2958" alt="image" src="https://github.com/user-attachments/assets/bc76b635-f196-4956-97a5-418cfe9daf32" />
 
 
 
